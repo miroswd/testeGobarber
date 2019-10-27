@@ -107,7 +107,7 @@ adiciona algumas configurações
 
 
 /// -----  PARTE 5 ---- ///
-Configuar sequelize e estruturar as pastas
+Configurar sequelize e estruturar as pastas
 Dentro de src
   crio a pasta config
     crio o arquivo database.js // Armazenará as credenciais da base de dados
