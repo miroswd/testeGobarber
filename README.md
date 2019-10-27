@@ -1,10 +1,11 @@
 <h1>GoBarber</h1>
 <p>Software de agendamento de serviços de beleza</p>
-
-Conceitos de padronização de código
-Docker
-ORM
-MVC
-Autenticação JWT
-Upload de Imagens
-Validação de dados
+<ul>
+ <li>Conceitos de padronização de código</li>
+ <li>Docker</li>
+ <li>ORM</li>
+ <li>MVC</li>
+ <li>Autenticação JWT</li>
+ <li>Upload de Imagens</li>
+ <li>Validação de dados</li>
+</ul>
