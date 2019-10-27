@@ -1,0 +1,279 @@
+﻿/// ------ PARTE 1 -------- ///
+
+// Separando os arquivos
+
+Crio a pasta GoBarber
+>>> yarn init -y
+>>> yarn add express
+
+Criar uma pasta src
+Dentro dela crio os arquivos:
+        app.js      // Configuração do server.express
+        server.js   // Servidor
+        routes.js   // Rotas
+
+// ----- app.js ------ //
+Começo importando express
+Importo routes
+
+Defino a primeira class, no caso a app
+    Método constructor // executado automaticamente
+        dentro dele eu crio uma variável com o express
+        chamo os métodos middlewares e routes
+
+Defino os 2 métodos, middlewares e routes
+    middlewares -> vai fazer a leitura de json
+    routes 		-> vai rodar o arquivo routes.js
+
+Exporta uma nova instância de app, jogando pra server
+
+
+// ------ server.js ------ //
+Crio a parte de Servidor
+importo o app.js
+Criou um listen de app
+
+
+// ----- routes ----- //
+Importo o {Router} de express -> separando a parte de roteamento
+Defino uma variável routes
+
+crio uma rota normal, para teste
+
+module.export routes
+
+>>> node src/server.js
+
+/// ------ PARTE 2 ----- ///
+--- import/export -> O node não suporta
+adiciono sucrase e nodemon como dependencia da aplicação
+>>> yarn add sucrase nodemon -D
+
+altero o const por import e require por from
+module.export -> export default
+
+>>> yarn sucrase-node src/server.js //rodar o server
+
+// package.json - dev e debug
+crio nodemon.json
+nas config do debug
+
+
+///  ----- PARTE 3 ----- ////
+Instalação do docker
+Postgres dockerhub tem as variáveis ambientes
+Postbird
+
+
+>>> sudo docker run --name database -e POSTGRES_PASSWORD=docker -p 5432:5432 -d postgres:11
+
+No postbird
+	localhost
+	5432
+	postgres
+	docker
+
+Testar a conexão, salvar
+Create database
+
+
+/// ---- PARTE 4 ---- ///
+Padronização do código
+>>> yarn add eslint -D // Vai garantir que estou seguindo meus padrões
+>>> yarn eslint --init
+
+Remover o arquivo package-lock
+>>> yarn // para fazer o mapeamento no yarn.lock
+
+Instalar o plugin eslint
+configuro o settings.json
+
+
+//prettier
+>>> yarn add prettier eslint-config-prettier eslint-plugin-prettier -D
+
+//no .eslintrc
+configuro as rules
+configuro plugins
+
+crio um arquivo .prettierrc
+
+>>>yarn eslint --fix src --ext .js
+
+// instala o plugin editorconfig
+Mantém um padrão caso os desenvolvedores da equipe usem outro editor
+vai na raiz do projeto, botão direito -> generate editor.config
+adiciona algumas configurações
+
+
+/// -----  PARTE 5 ---- ///
+Configuar sequelize e estruturar as pastas
+Dentro de src
+  crio a pasta config
+    crio o arquivo database.js // Armazenará as credenciais da base de dados
+
+  crio a pasta database
+
+  crio a pasta app // Aqui ficará a regra de negócio, lógica da aplicação
+    pasta controllers
+    pasta models
+
+>>> yarn add sequelize
+>>> yarn add sequelize-cli -D -> facilita a criação de migrations
+
+Crio na raiz o arquivo .sequelizerc
+
+/// --- database.js --- ///
+>> yarn add pg pg-hstore // para poder usar o dialect
+
+
+/// ----- PARTE 6 ---- ///
+Criando a tabela de usuários da app
+
+>>> yarn sequelize migration:create --name=create-users //create users pq é a tabela q vai criar a tabela de usuários
+Vai criar uma pasta migrations e dentro da pasta migrations vai criar um arquivo
+Configura a migration, passando os dados da tabela como id, name, email // Muito importante ver se os nomes estão certos, se está escrevendo em inglês
+
+>>> yarn sequelize db:migrate
+
+>>> yarn sequelize db:migrate:undo //desfaz a migrate
+
+No Postbird, atualiza -> a tabela já estará lá
+
+
+//// ----- PARTE 7 ---- ////
+MODEL DE USUÁRIO - MANIPULAR OS USERS
+
+Dentro de models
+  User.js
+
+Começo importando o Sequelize, Model do sequelize
+Defino uma class pai
+Dentro eu com um metodo init, com sequelize como parêmetro
+Crio um objeto, um outro método, super.init() // referente a class pai
+Como primeiro parâmetro passo um objeto com as informações que o usuário preencherá
+Como segundo parâmetro passo o sequelize
+Exporto por padrão a class User
+
+///----- PARTE 8 ----- ///
+//Conexão com o banco de dados
+
+Dentro de database
+  crio o arquivo index.js
+
+Importo Sequelize
+Importo User // model
+Importo databaseConfig // vai puxar as credenciais do database
+
+Crio uma class para fazer a conexão com o banco de dados
+Na constructor eu chamo o método init
+No método init eu crio uma variável que fará a conexão com o banco de dados
+  Essa variável está sendo esperada dentro dos models
+
+Crio um array para os models
+Percorro ele, retornando a variável connection para dentro do init
+
+Depois disso, preciso chamar esse arquivo no app.js
+  Apenas chamar
+
+Para testar, vou em rotas e crio um json
+Caso não esteja funcionando, tentar mudar o email
+
+
+//// ----- PARTE 9 ----- ////
+Criando o controller
+Dentro de controllers
+  userController
+
+Como sempre estará usando o model de usuário, importar o User
+Crio o método store, q terá basicamente a funcionalidade do server.post
+Tenho a variável q recebe o req.body e o res q retorna o valor da variável
+
+Vou em rotas, importo o userController
+Gero uma rota post passando o método store de userController
+
+Crio uma condição no userController, para ver se não existe um user com o mesmo email
+
+//Insomnia -> por enquanto será alimentado no Insomnia
+Crio a pasta USERS
+  Create POST json
+    passo as informações q quero receber
+
+
+//// ------ PARTE 10 ------ ////
+//Gerando o hash
+
+>>> yarn add bcryptjs
+No User.js
+	Importo bcrypt from bcryptjs
+
+Crio um campo password dentro do primeiro parâmetro
+
+Crio uma variavel this.addHook -> É executada de forma automática
+Passo a password_hash -> pegando o valor criptografado
+
+No Insomnia, altero para password
+e ta pronto o sorvetinho
+
+/// ----- PARTE 11 ----- ///
+//Autenticação do usuário
+
+Crio a class sessionControler
+Com o método store
+
+>>> yarn add jsonwebtoken
+Importar o jwt de dentro do jsonwebtoken
+
+A autenticação será através do email e senha
+
+Foi criada uma validação do email, pra checar se existe
+Dentro de User.js, foi criada uma validação da senha, para comparar a senha digitada com a senha armazanada no banco de dados
+
+Foi gerado um token, esse token pegou o id do usuário, um código aleatório gerado pelo md5 online e tmb o tempo de expiração
+
+
+/// ----- PARTE 12 ----- ///
+//Bloqueando o usuário caso não esteja logado
+
+Separo a data de expiração e a chave gerada pelo md5, em outro arquivo
+
+Dentro de auth.js crio uma condição para ver se o usuário está autenticado
+Separo o Bearer do token
+
+Crio um try catch, se tudo der certo ele retorna o id do usuário
+
+
+/// ----- PARTE 13 ----- ///
+//Edição dos dados do usuário
+Crio verificações a respeito de email e password
+Se o usuário informar a oldPassword, ele quer atualizar a senha
+
+
+
+/// ---- PARTE 14 ---- ///
+Validação de dados, se o usuário preencheu corretamente
+Biblioteca yup -> schema validation
+>>> yarn add yup
+
+import * as 'Yup' from 'yup'
+
+no userController
+Foram criadas validações do yup
+
+confirmPassword: Yup.string().when('password', (password, field) =>
+        password ? field.required().oneOf([Yup.ref('password')]) : field
+//dessa maneira, passo como referência o valor da password
+
+no sessionControler foi criada uma validação para a autenticação também
+
+
+{{{{{{{{{{{{{{{{{{{{{{{
+
+Para funcionar:
+>>> yarn dev
+>>> sudo docker start datase
+
+}}}}}}}}}}}}}}}}}}}}}}}
+
+
+----- ATÉ AQUI TÁ LINDO E MARAVILHOSO FUNCIONANDO ------
