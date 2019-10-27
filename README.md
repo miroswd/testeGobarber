@@ -3,6 +3,7 @@
 <ul>
  <li>Conceitos de padronização de código</li>
  <li>Docker</li>
+  <li>Postbird</li>
  <li>ORM</li>
  <li>MVC</li>
  <li>Autenticação JWT</li>
