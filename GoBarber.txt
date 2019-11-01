@@ -107,7 +107,7 @@ adiciona algumas configurações
 
 
 /// -----  PARTE 5 ---- ///
-Configuar sequelize e estruturar as pastas
+Configurar sequelize e estruturar as pastas
 Dentro de src
   crio a pasta config
     crio o arquivo database.js // Armazenará as credenciais da base de dados
@@ -276,4 +276,84 @@ Para funcionar:
 }}}}}}}}}}}}}}}}}}}}}}}
 
 
------ ATÉ AQUI TÁ LINDO E MARAVILHOSO FUNCIONANDO ------
+----- ATÉ AQUI MÓDULO 2 TÁ LINDO E MARAVILHOSO FUNCIONANDO ------
+
+/// PARTE 14
+//Configurando Multer
+Upload de arquivo
+Precisa de uma biblioteca que leia um corpo diferente (Multipart/form-Data)
+>>> yarn add multer
+Criar uma pasta na raiz do projeto (temp/uploads)
+Dentro da CONFIG -> multer.js (vai ficar toda nossa configuração da parte de arquivo)
+Em routes é importado o multer e configMulter
+No Insomnia -> Foi criada uma pasta Files - POST - Multipart Form
+     file (nome escolhido la nas rotas)
+     setinha para baixo -> seleciona o file
+         choose file
+  Ctrl+E (Manager enviroment) -> adiciono o token
+  Bearer Auth -> substituir o token pela variavél token, como se fosse o base_url
+  Depois dar o send
+O arquivo será importado em temp/uploads
+
+/// PARTE 15
+// Salvando as informações do arquivo na base de dados
+Toda vez q multer age sob uma rota, é gerada uma variável dentro de req == req.file
+Criado um FileSession, importar nas rotas
+Gerar uma migrate create-files
+
+>>> yarn sequelize migration:create --name=create-files
+Configuro a migration, mudo o nome de users para files
+
+>>> yarn sequelize db:migrate
+
+Criar um model de Files
+Para fazer a conexão com o banco de dados, é importado o model de files no index.js
+
+Ao rodar no Insomnia irá armazenar as info no banco de dados
+Porém a tabela files não tem um relacionamento com a tabela users
+
+//Sincando a files com a users
+Se adicionar um campo novo na tabela de usuários(migration users), a tabela não vai conseguir referenciar, já que
+a migration files é criada Depois
+
+Migrations funcionam como uma linha do tempo da database
+
+Criar uma nova migration para adicionar o campo de avatar na tabela de usuários
+>>> yarn sequelize migration:create --name=add-avatar
+-> ESSA MIGRATION É DIFERENTE DAS TABELAS CRIADAS ATÉ AGORA
+configuro como columns
+>>> yarn sequelize db:migrate
+
+Atualizo o postbird, a última informação da coluna da tabela users, deverá ser avatar_id
+
+No Insomnia -> crio o o avatar_id, no update
+  Porém o model do user não tem o avatar_id
+
+Criar o método associate em model User.js
+
+Verificar se o ID está pegando um valor único para cada user
+
+///PARTE 16
+//Listagem de prestadores de serviço
+
+Cria uma rota de Listagem
+Cria um novo controller (ProviderController) -> Como é uma nova entidade, querendo listar apenas os prestadores
+  Crio uma class que busque todos os providers true.
+  Talvez nenhum provider esteja true, basta ir no postbird e trocar o provider de false para true
+Após importar os atributos no Provider, para nomear de 'File' para 'avatar', devemos ir no User.js e passar um as:'avatar'
+
+Como não tem nenhuma informação passando a url da imagem, não é possível passar para o front-end
+Gerando a URL do arquivo:
+  Em file.js, é criado um campo virtual
+  Incluído aos atributos 'url' (ProviderController)
+  Recurso do express para servir arquivos estáticos, imagens. css, html, que podem ser acessados diretamente pelo navegador
+
+///PARTE 17
+//Criando agendamento
+Gerar uma nova migration -> create-appointments
+  trocar users por appointments,
+  referenciar o usuario e provider à tabela appointments
+Gerar um db:migrate
+
+Criando o model appointment.js
+

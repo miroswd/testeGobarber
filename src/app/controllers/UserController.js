@@ -55,8 +55,8 @@ class UserController {
     // console.log(req.userId); // Agora consigo usar o userId para fazer as alterações
     const { email, oldPassword } = req.body; // Buscando dentro do req.body
 
-    const user = await User.findByPk(req.userId); // Busca o user no banco de dados através do id do usuário
-
+    const user = await User.findByPk(req.userId);
+    // console.log(user);
     // Verificação do usuário
 
     // Se estiver mudando o email

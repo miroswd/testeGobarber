@@ -25,6 +25,10 @@ class User extends Model {
     return this;
   }
 
+  static associate(models) {
+    this.belongsTo(models.File, { foreignKey: 'avatar_id', as: 'avatar' }); // Passando o codenome tmb, para não ficar nomeado como File e sim avatar
+  }
+
   checkPassword(password) {
     return bcrypt.compare(password, this.password_hash); // Compara a senha que está sendo digitada com a senha criptografada no db
     // return true or false
