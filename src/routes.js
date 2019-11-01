@@ -1,12 +1,20 @@
 import { Router } from 'express'; // Separo o roteamento do express
+import multer from 'multer';
+
 // import User from './app/models/User';
 
-import UserController from './app/controllers/UserController';
-import SessionController from './app/controllers/SessionController';
-
+import multerConfig from './config/multer';
 import authMiddleware from './app/middlewares/auth';
 
+// Import controlers
+import SessionController from './app/controllers/SessionController';
+import UserController from './app/controllers/UserController';
+import FileController from './app/controllers/FileController';
+import ProviderController from './app/controllers/ProviderController';
+
+// Declarando variáveis
 const routes = new Router();
+const upload = multer(multerConfig);
 
 routes.post('/users', UserController.store);
 routes.post('/sessions', SessionController.store);
@@ -15,6 +23,12 @@ routes.use(authMiddleware); // Passando de forma global, para as rotas a baixo
 
 // Essa rota, só pode ser acessada se o user estiver autenticado
 routes.put('/users', /* authMiddleware, */ UserController.update);
+
+// Listagem de prestadores
+routes.get('/providers', ProviderController.index);
+
+// Upload do avatar
+routes.post('/files', upload.single('file'), FileController.store);
 
 /* ROTAS PARA TESTE
 

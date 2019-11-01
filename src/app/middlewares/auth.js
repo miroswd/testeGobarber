@@ -20,10 +20,7 @@ export default async (req, res, next) => {
 
   // Podendo retornar um erro de autenticação, por isso usar o try catch
   try {
-    const decoded = await promisify(jwt.verify)(
-      /* retorna uma função */ token,
-      authConfig.secret
-    );
+    const decoded = await promisify(jwt.verify)(token, authConfig.secret);
 
     req.userId = decoded.id; // Para alterar o usuário -> no userController
 
