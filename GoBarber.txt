@@ -291,7 +291,7 @@ No Insomnia -> Foi criada uma pasta Files - POST - Multipart Form
      setinha para baixo -> seleciona o file
          choose file
   Ctrl+E (Manager enviroment) -> adiciono o token
-  Bearer Auth -> substituir o token pela variavél token, como se fosse o base_url
+  Bearer Auth -> substituir o token pela variável token, como se fosse o base_url
   Depois dar o send
 O arquivo será importado em temp/uploads
 
@@ -357,3 +357,46 @@ Gerar um db:migrate
 
 Criando o model appointment.js
 
+
+///PARTE 18
+//Agendando o serviço com algum prestador
+Começa criando o controller
+(AppointmentController.js)
+Importa nas rotas tmb
+No Insomnia é preciso se assegurar que o token não seja de um provider
+Crio as validações
+retorno as informações do agendamento
+
+
+///PARTE 19
+//Validação da data de agendamento
+-> Apenas em datas futuras, e um agendamento por hora
+Biblioteca para trabalhar com datas no node
+>>> yarn add date-fns@next
+No AppointmentController
+  import {startOfHour, parseIso } from 'date-fns'
+Faço duas verificações, sendo uma para validar se a data é futura, não tem como fazer um agendamento no passado
+A outra é para ver se o prestador já tem horário marcado. A disponibilidade do pestador é a cada 1h, e sempre pegando a hora, sem os minutos
+
+**Logar com o usuário normal, marcar o agendamento passando o id do provider
+
+
+///PARTE 20
+//Listar os agendamentos do usuario
+Criado um método index no AppointmentController
+  criado atributos de exibição
+Nas rotas foi criado um método get
+
+///PARTE 21
+//Paginação
+No Insomnia -> Query, parâmetro que é anexado na URL
+    Dentro de appointments, get -> query -- page -- 1
+dentro do index
+  foi criada uma variável com valor padrão = 1
+  e foram aplicados duas funcionalidades ao appointments, limit e offset
+
+///PARTE 22
+//Listagem para o provider
+Criado um ScheduleController -> Agenda
+Gerado um método index, o qual é passado para as rotas
+No Insomnia, vale lembrar que o provider deve estar autenticado

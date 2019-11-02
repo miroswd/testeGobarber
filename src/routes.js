@@ -11,6 +11,8 @@ import SessionController from './app/controllers/SessionController';
 import UserController from './app/controllers/UserController';
 import FileController from './app/controllers/FileController';
 import ProviderController from './app/controllers/ProviderController';
+import AppointmentController from './app/controllers/AppointmentController';
+import ScheduleController from './app/controllers/ScheduleController';
 
 // Declarando variáveis
 const routes = new Router();
@@ -30,6 +32,13 @@ routes.get('/providers', ProviderController.index);
 // Upload do avatar
 routes.post('/files', upload.single('file'), FileController.store);
 
+// Agendamento do usuário com o prestador
+routes.get('/appointments', AppointmentController.index);
+routes.post('/appointments', AppointmentController.store);
+
+// Agendamento - provider
+routes.get('/schedule', ScheduleController.index);
+
 /* ROTAS PARA TESTE
 
 // Alimentado pelo database
@@ -42,12 +51,14 @@ routes.get('/', async (req, res) => {
   return res.json(user);
 });
 
-//Alimentado manualmente
-routes.get('/', (req, res) => {
-  return res.json({ msg: 'bom dia' });
-});
+
 
 
 
 */
+
+// Alimentado manualmente
+routes.get('/teste', (req, res) => {
+  return res.json({ msg: 'bom dia' });
+});
 export default routes;
