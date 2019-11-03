@@ -13,5 +13,6 @@
  <li>MongoDB</li>
  <li>mongoose</li>
  <li>nodemailer</li>
+ <li>mailtrap.io</li>  
  <li>handlebars</li>  
 </ul>
