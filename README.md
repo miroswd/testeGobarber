@@ -10,4 +10,8 @@
  <li>Upload de Imagens</li>
  <li>Validação de dados</li>
  <li>Multer</li>
+ <li>MongoDB</li>
+ <li>mongoose</li>
+ <li>nodemailer</li>
+ <li>handlebars</li>  
 </ul>
