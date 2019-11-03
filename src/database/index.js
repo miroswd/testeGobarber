@@ -1,5 +1,7 @@
 import Sequelize from 'sequelize';
+import mongoose from 'mongoose';
 
+// Models
 import User from '../app/models/User';
 import File from '../app/models/File';
 import Appoint from '../app/models/Appointment';
@@ -11,10 +13,11 @@ const models = [User, File, Appoint]; // Array com todos os models
 class Database {
   constructor() {
     this.init();
+    this.mongo();
   }
 
+  // Conecta com o banco de dados e carrega os models
   init() {
-    // Conecta com o banco de dados e carrega os models
     this.connection = new Sequelize(databaseConfig); // Aqui faço a conexão com o banco de dados
     // Essa variável está sendo esperada detro de models, no método init
 
@@ -22,6 +25,15 @@ class Database {
     models
       .map(model => model.init(this.connection))
       .map(model => model.associate && model.associate(this.connection.models));
+  }
+
+  mongo() {
+    // Faz a conexão com o banco não relacional
+    this.mongoConnection = mongoose.connect(
+      // Passando a URL de conexão
+      'mongodb://localhost:27017/gobarber',
+      { useNewUrlParser: true, useFindAndModify: true }
+    );
   }
 }
 
