@@ -13,6 +13,7 @@ import FileController from './app/controllers/FileController';
 import ProviderController from './app/controllers/ProviderController';
 import AppointmentController from './app/controllers/AppointmentController';
 import ScheduleController from './app/controllers/ScheduleController';
+import NotificationController from './app/controllers/NotificationController';
 
 // Declarando variáveis
 const routes = new Router();
@@ -38,6 +39,15 @@ routes.post('/appointments', AppointmentController.store);
 
 // Agendamento - provider
 routes.get('/schedule', ScheduleController.index);
+
+// Listagem de notificações
+routes.get('/notifications', NotificationController.index);
+
+// Notificação lida
+routes.put('/notifications/:id', NotificationController.update);
+
+// Cancelando o agendamento
+routes.delete('/appointments/:id', AppointmentController.delete);
 
 /* ROTAS PARA TESTE
 

@@ -118,7 +118,7 @@ Dentro de src
     pasta controllers
     pasta models
 
->>> yarn add sequelize
+>>> yarn add sequelize // Para rodar o postgres
 >>> yarn add sequelize-cli -D -> facilita a criação de migrations
 
 Crio na raiz o arquivo .sequelizerc
@@ -400,3 +400,83 @@ dentro do index
 Criado um ScheduleController -> Agenda
 Gerado um método index, o qual é passado para as rotas
 No Insomnia, vale lembrar que o provider deve estar autenticado
+
+
+///PARTE 23
+//Conectando com um banco não relacional MONGODB
+- Dados não estruturados, não relacional e performáticos
+Rodando no docker
+docker run --name mongobarber -p 27017:27017 -d -t mongo
+porta padrão do mongo = 27017
+
+localhost:27017 //testa o mongo, tem que exibir uma mensagem
+
+Conectando com o banco de dados
+>>> yarn add mongoose
+No index.js da database, foi criada uma class mongo
+
+///PARTE 24
+//Enviando notificação para o prestador de serviço toda vez q tiver um agendamento
+Schemas (mongo) = models
+Foi criada uma pasta schemas dentro de app
+Notification.js
+que funciona basicamente como uma migration, configurando o tipo dos dados
+Carregado no AppointmentController
+Criado um texto com o nome e a data
+Formatação da data com o date-fns, inclusive com o idioma português para o mês
+
+Interface gráfica - mongoDb compass comunity
+Com o mongobarber, database e dev rodando
+faço a conexão no mongodb - localhost:27017
+O banco SQL -> Dados estruturados com relacionamento
+Banco NoSQL -> Dados não estruturados, sem relacionamento, com performace
+
+///PARTE 25
+//Listagem de notificações do usuário
+Criada uma rota e um controller de notification
+Foi feita uma validação para ver se o user é um provider
+O return tem q devolver as notificações em pilha, da notificação mais recente até a mais antiga
+
+///PARTE 26
+//Marcando a notificação como lida
+Criado um método update no NotificationController e uma rota
+O update busca a propriedade read, converte de false pra true e retorna o valor atualizado
+
+///PARTE 27
+//Cancelando um agendamento
+Esse cancelamento só será permitido com uma distância de horário de 2h
+Criado um novo método dentro de AppointmentController
+
+
+///PARTE 28
+//Configurando envios de email
+Como o cancelamento é importante para o prestador de serviço, será enviado um email toda vez
+q um agendamento for cancelado
+
+>>> yarn add nodemailer
+Dentro de config, é criado um arquivo mail, onde terá as configurações de envio de email
+As credenciais foram obtidas através do mailtrap.io, se atentar ao dados passados aqui
+
+Criada uma pasta lib dentro de src -> Configurações adicionais, configurações de serviço
+Arquivo Mail.js
+
+///PARTE 29
+//template de email
+Utilizando handlebars
+>>> yarn add express-handlebars nodemailer-express-handlebars
+
+Dentro de app foi criada uma pasta views
+dentro de views uma pasta emails
+dentro de emails, layouts e partials
+layouts
+  default.hbs // configurado o css da mensagem
+partials
+  footer.hbs  // Mensagem da equipe
+dentro da pasta emails, foi criado o texto de cancelamento (cancellation.hbs)
+
+partials: arquivos que pode ser importado dentro de alguns emails
+  mensagem que será repetida em vários emails
+
+em Mail.js, criada uma class com as configurações de acesso aos arquivos do template
+
+em AppointmentController, as configurações para o envio do email
