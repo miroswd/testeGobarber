@@ -9,4 +9,5 @@
  <li>Autenticação JWT</li>
  <li>Upload de Imagens</li>
  <li>Validação de dados</li>
+ <li>Multer</li>
 </ul>
