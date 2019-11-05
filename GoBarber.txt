@@ -480,3 +480,64 @@ partials: arquivos que pode ser importado dentro de alguns emails
 em Mail.js, criada uma class com as configurações de acesso aos arquivos do template
 
 em AppointmentController, as configurações para o envio do email
+
+///PARTE 30
+//Configurando filas com Redis
+Para demorar menos na hora de cancelar um agendamento,
+no AppointmentController, no sendMail, remover o await
+PORÉM, ao fazer isso, se der algum erro, não será retornado, não da pra saber se deu falha
+Filas: trabalhos em background/segundo plano
+Banco Chave Valor : redis -> Banco não relacional, não tem schemas
+  Mais performáticos
+  Armazena apenas Key and Value
+
+>>> sudo docker run --name redisbarber -p 6379:6379 -d -t redis:alpine
+instalar o bee queue // Ferramenta de fila dentro do node, em background
+>>> yarn add bee-queue
+
+Começo criando um arquivo dentro de lib, Queue.js
+instancio uma classe
+cada tipo de background job, ele terá sua própria fila
+todos os trabalhos que ficam dentro das filas são chamados de jobs
+Dentro da pasta app, cria uma pasta jobs, com o CancellationMail.js
+Nesse arquivo foi passado o template do email, anteriormente estava em AppointmentController
+
+Em lib foi criado um arquivo Queue.js
+Pra cada um dos jobs cria uma fila e dentro da fila
+armazena o bee(instância que conecta com o redis, que
+consegue armazenar e recuperar os valores do banco de dados),
+e o handle, processa as filas, recebe as variáveis do contexto,
+do email, appointment e passa por dentro do job e armazena o job
+dentro da fila.
+E o processQueue, pega os jobs e processa em tempo real
+
+em AppointmentController, é deletado o import do Mail, e passa a ser o import do Queue
+ await Queue.add(CancellationMail.key, {
+      appointment, /*Posso passar outros valores aqui*/
+      teste:'teste', // Outro valor para exemplificar, e no CancellationMail, deve-se passar um teste tmb
+    });
+Na SRC -> queue.js // Separando a fila do servidor
+
+no package.json -> scripts, "queue":"nodemon src/queue.js"
+>>> yarn queue
+
+createJob -> propriedade de Bee
+
+para testar, no CancellationMail, console.log("A fila executou")
+
+///PARTE 31
+//lidando com falhas na fila
+-> o bee tem tipos de eventos
+bee.on('failed')
+
+///PARTE 32
+//Listando horários disponíveis do provider
+
+ Como vai enviar uma data, no query params, do insomnia, date e timestamps(esse é o formato da data)
+ Para pegar a data nesse formato, abrir o chrome, inspecionar, no console, digitar new Date().getTime()
+ O valor retornado é a data atual
+
+///PARTE 33
+//Campos virtuais no agendamento
+Dentro de models/appointment são criados campos para avaliação de agendamento passado
+e se é cancelável, o agendamento só pode ser cancelado com 2h de antecedência
