@@ -3,7 +3,7 @@
 <ul>
  <li>Conceitos de padronização de código</li>
  <li>Docker</li>
-  <li>Postbird</li>
+ <li>Postbird</li>
  <li>ORM</li>
  <li>MVC</li>
  <li>Autenticação JWT</li>
@@ -16,5 +16,6 @@
  <li>mailtrap.io</li>  
  <li>handlebars</li>  
  <li>Redis</li>
- <li>bee-queue</li>  
+ <li>bee-queue</li>
+ <li>Sentry</li>
 </ul>
