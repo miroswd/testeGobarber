@@ -15,4 +15,5 @@
  <li>nodemailer</li>
  <li>mailtrap.io</li>  
  <li>handlebars</li>  
+ <li>Redis</li>  
 </ul>
