@@ -16,5 +16,5 @@
  <li>mailtrap.io</li>  
  <li>handlebars</li>  
  <li>Redis</li>
- <li>Bee Queue</li>  
+ <li>bee-queue</li>  
 </ul>
