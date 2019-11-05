@@ -541,3 +541,34 @@ bee.on('failed')
 //Campos virtuais no agendamento
 Dentro de models/appointment são criados campos para avaliação de agendamento passado
 e se é cancelável, o agendamento só pode ser cancelado com 2h de antecedência
+
+///PARTE 34
+//Tratamento de exceções -> erros da aplicação quando estão na produção
+
+Ferramentas de monitoramento de erros
+  sentry -> Utilizando esse
+  bugsnag
+
+sentry.io
+  projects, create projects, express, renomeio ele, mudo o time e dou um create
+
+criado uma config do sentry, que contém a URL dns
+  esse arquivo é importado em app.js
+
+dentro de app são adicionadas 2 propriedades sendo uma para executar antes de tudo,
+está embutida nos middlewares e a outra, para execução depois de tudo, que está em rotas
+
+Quando é feito no async, o express não consegue captar os erros
+para solucionar isso:
+>>> yarn add express-async-errors
+importar no app.js
+
+quando for gerado um erro, basta ir ao sentry, em issues
+
+criando um middleware para tratamento de erros
+// quando um middleware possui 4 parâmetros, ele é um middleware de tratamento de exceções
+
+>>> yarn add youch // Faz uma tratativa de mensagens de erro, para melhorar a visualização do erro para o desenvolvedor
+
+youch é importado dentro do app.js
+Agora quando tiver um erro, será exibido no Insomnia
