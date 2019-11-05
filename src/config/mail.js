@@ -2,12 +2,12 @@
 // As credenciais foram obtidas através do mailtrap
 
 export default {
-  host: 'smtp.mailtrap.io', // O envio do email será através de SMTP (Protocolo de envio de emails)
-  port: '2525',
+  host: process.env.MAIL_HOST, // O envio do email será através de SMTP (Protocolo de envio de emails)
+  port: process.env.MAIL_PORT,
   secure: false,
   auth: {
-    user: '8b35c4e8f022a3',
-    pass: 'e7179ec9d7656d',
+    user: process.env.MAIL_USER,
+    pass: process.env.MAIL_PASS,
   },
   default: {
     from: 'Equipe GoBarber <noreply@gobarber.com>',

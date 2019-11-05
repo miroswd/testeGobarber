@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 import express from 'express';
 import 'express-async-errors';
 import path from 'path';
@@ -9,7 +11,7 @@ import routes from './routes';
 
 import sentryConfig from './config/sentry';
 
-import './database';
+import './database'; // Carrega todas as variáveis
 
 class App {
   constructor() {
@@ -40,8 +42,11 @@ class App {
     // Os erros vão cair aqui
     // Quando um middleware recebe 4 parâmetros, ele é um middleware de tratamento de exceções
     this.server.use(async (err, req, res, next) => {
-      const errors = await new Youtch(err, req).toJSON();
-      return res.status(500).json(errors); // Internal Server error
+      if (process.env.NODE_ENV === 'development') {
+        const errors = await new Youtch(err, req).toJSON();
+        return res.status(500).json(errors); // Internal Server error
+      }
+      return res.status(500).json({ error: 'Internal server error' });
     });
   }
 }
