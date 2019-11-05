@@ -594,4 +594,4 @@ Quando for criar uma feature na aplicação, que tenha algum tipo de configuraç
 que pode ser manipulada num ambiente de desenvolvimento, ou outro desenvolvedor querer de outro jeito
 basta configurar as variáveis de ambiente
 
-Uma boa prática, é criar um .envExample
+Uma boa prática, é criar um .env.Example
