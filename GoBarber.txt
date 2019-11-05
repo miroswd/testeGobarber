@@ -572,3 +572,26 @@ criando um middleware para tratamento de erros
 
 youch é importado dentro do app.js
 Agora quando tiver um erro, será exibido no Insomnia
+
+
+///PARTE 35
+//Variáveis ambiente -> Podem ter seus valores alterados de acordo com o ambiente que a aplicação
+está rodando
+
+na raiz, .env
+Nesse arquivo, são carregadas todas as credenciais, portanto não deve ir ao github
+>>> yarn add dotenv
+
+No app.js
+A primeira importação deve ser esse arquivo
+importa em queue e tmb em database.js
+Através de uma variável global eu consigo acessar essa variável ambiente
+exemplo:
+    process.env.APP_URL
+começa a substituir essas informações pela variável
+
+Quando for criar uma feature na aplicação, que tenha algum tipo de configuração,
+que pode ser manipulada num ambiente de desenvolvimento, ou outro desenvolvedor querer de outro jeito
+basta configurar as variáveis de ambiente
+
+Uma boa prática, é criar um .envExample

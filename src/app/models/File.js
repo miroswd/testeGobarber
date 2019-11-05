@@ -11,7 +11,7 @@ class File extends Model {
         url: {
           type: Sequelize.VIRTUAL, // Somente aqui, não vai para o banco de dados
           get() {
-            return `http://localhost:3333/files/${this.path}`; // Retornando a URL do arquivo
+            return `${process.env.APP_URL}/files/${this.path}`; // Retornando a URL do arquivo
           },
         },
       },

@@ -31,7 +31,7 @@ class Database {
     // Faz a conexão com o banco não relacional
     this.mongoConnection = mongoose.connect(
       // Passando a URL de conexão
-      'mongodb://localhost:27017/gobarber',
+      process.env.MONGO_URL,
       { useNewUrlParser: true, useFindAndModify: true }
     );
   }
